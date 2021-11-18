@@ -10,7 +10,7 @@ import android.view.View;
 import ch.zli.m335.flyingdude.R;
 import ch.zli.m335.flyingdude.model.Background;
 
-public class BackgroundView  extends SurfaceView implements Runnable {
+public class BackgroundView extends SurfaceView implements Runnable {
     Background background;
     Thread renderThread;
     SurfaceHolder holder;
