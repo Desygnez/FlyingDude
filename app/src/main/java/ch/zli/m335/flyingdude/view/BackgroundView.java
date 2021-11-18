@@ -9,14 +9,14 @@ import ch.zli.m335.flyingdude.R;
 import ch.zli.m335.flyingdude.model.Background;
 
 public class BackgroundView {
-    Background bg;
+    Background background;
     Thread renderThread;
     SurfaceHolder holder;
     volatile boolean running;
 
     public BackgroundView(Context context) {
         super(context);
-        this.bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
+        this.background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         this.holder = getHolder();
     }
     public void resume() {
@@ -24,6 +24,19 @@ public class BackgroundView {
         renderThread = new Thread(this);
         renderThread.start();
     }
+
+    public void pause() {
+        running = false;
+        while (true) {
+            try {
+                renderThread.join();
+                break;
+            } catch (InterruptedException e) {
+                // do nothing
+            }
+        }
+    }
+
     public void run() {
         long startTime = System.nanoTime();
         while (running) {
@@ -33,14 +46,14 @@ public class BackgroundView {
             try {
                 canvas = holder.lockCanvas(null);
 
-                synchronized (bg) {
-                    if (bg.getX()+bg.getBitmap().getWidth() >= 0 || (bg.getX() >= 0 && bg.getX() <= getWidth()))
-                        canvas.drawBitmap(bg.getBitmap(), bg.getX(),0, null);
-                    if (bg.getX()+bg.getBitmap().getWidth()+bg.getBitmap().getWidth() >= 0 || (bg.getX()+bg.getBitmap().getWidth() >= 0 && bg.getX() <= getWidth()))
-                        canvas.drawBitmap(bg.getBitmap(), (bg.getX()+bg.getBitmap().getWidth()),0, null);
+                synchronized (background) {
+                    if (background.getX()+ background.getBitmap().getWidth() >= 0 || (background.getX() >= 0 && background.getX() <= getWidth()))
+                        canvas.drawBitmap(background.getBitmap(), background.getX(),0, null);
+                    if (background.getX()+ background.getBitmap().getWidth()+ background.getBitmap().getWidth() >= 0 || (background.getX()+ background.getBitmap().getWidth() >= 0 && background.getX() <= getWidth()))
+                        canvas.drawBitmap(background.getBitmap(), (background.getX()+ background.getBitmap().getWidth()),0, null);
 
                     if (getDeltaTime(startTime) > 0.1) {
-                        bg.update();
+                        background.update();
                         startTime = System.nanoTime();
                     }
                 }
@@ -49,6 +62,10 @@ public class BackgroundView {
                     holder.unlockCanvasAndPost(canvas);
             }
         }
+    }
+
+    public Background getBackgroundModel(){
+        return background;
     }
 
     private float getDeltaTime(long startTime) {

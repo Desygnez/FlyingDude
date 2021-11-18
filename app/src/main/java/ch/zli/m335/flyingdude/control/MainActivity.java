@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import ch.zli.m335.flyingdude.R;
+import ch.zli.m335.flyingdude.model.Background;
 import ch.zli.m335.flyingdude.view.BackgroundView;
 import ch.zli.m335.flyingdude.view.DudeView;
 
@@ -51,13 +52,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        bgv.resume();
-    }
+        backgroundView.resume();
+}
 
     @Override
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
-        bgv.pause();
+        backgroundView.pause();
     }
+
 }
