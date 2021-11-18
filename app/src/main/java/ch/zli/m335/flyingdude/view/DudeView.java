@@ -42,7 +42,7 @@ public class DudeView extends View {
         keepDudeVisible(dude);
         canvas.drawBitmap(dude.getImage(), coords[0], coords[1], null);
 
-        String speedText = ""+(-bg.getSpeed()*23);
+        String speedText = ""+(-background.getSpeed()*23);
         int fontSize = context.getResources().getDimensionPixelSize(R.dimen.speedFontSize);
         Paint paint = getPaint(fontSize);
         paint.getTextBounds(textLabel, 0, speedText.length(), rect);
