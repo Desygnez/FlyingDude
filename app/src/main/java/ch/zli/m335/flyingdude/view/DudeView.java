@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.Image;
+import android.graphics.Typeface;
+import android.view.View;
+
 import ch.zli.m335.flyingdude.R;
 import ch.zli.m335.flyingdude.model.Background;
 import ch.zli.m335.flyingdude.model.Dude;
 
-public class DudeView {
+public class DudeView extends View {
 
     private Dude dude;
     private Background background;
@@ -60,6 +62,21 @@ public class DudeView {
         canvas.drawText(speedText, speedXCoordinate, yOffset, paint);
     }
 
+    private Paint getPaint(float fontSize) {
+        if (rect == null)
+            rect = new Rect();
+        if (paint == null) {
+            paint = new Paint();
+            Typeface typeface = Typeface.create("Droid Sans", Typeface.BOLD);
+            paint.setTypeface(typeface);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setAntiAlias(true);
+            paint.setColor(context.getResources().getColor(android.R.color.holo_green_dark));
+            paint.setTextSize(fontSize);
+        }
+        return paint;
+    }
+
     public Dude getDude() {
         return dude;
     }
@@ -67,22 +84,22 @@ public class DudeView {
     private void keepDudeVisible(Dude dude) {
         int height = dude.getImage().getHeight();
         int width = dude.getImage().getWidth();
-        float xPlane = dude.getX();
-        float yPlane = dude.getY();
+        float dudeX = dude.getX();
+        float dudeY = dude.getY();
 
-        if (xPlane < 0)
+        if (dudeX < 0)
             coords[0] = 1;
-        else if (xPlane > getWidth()-width)
+        else if (dudeX > getWidth()-width)
             coords[0] = getWidth()-width;
         else
-            coords[0] = xPlane;
+            coords[0] = dudeX;
 
-        if (yPlane < 0)
+        if (dudeY < 0)
             coords[1] = 1;
-        else if (yPlane > getHeight()-height)
+        else if (dudeY > getHeight()-height)
             coords[1] = getHeight()-height;
         else
-            coords[1] = yPlane;
+            coords[1] = dudeY;
 
     }
 }

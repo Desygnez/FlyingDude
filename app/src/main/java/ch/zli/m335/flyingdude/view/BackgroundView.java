@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
 
 import ch.zli.m335.flyingdude.R;
 import ch.zli.m335.flyingdude.model.Background;
 
-public class BackgroundView {
+public class BackgroundView  extends SurfaceView implements Runnable {
     Background background;
     Thread renderThread;
     SurfaceHolder holder;
