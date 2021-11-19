@@ -35,8 +35,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
     private DudeView dudeView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +64,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mSensorManager.registerListener(    this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         backgroundView.resume();
+        SharedPreferences sharedPref = getSharedPreferences(Constants.HIGH_SCORE_FILE, 0);
+        int highScore = sharedPref.getInt("highScore", 0); // default is 0
     }
 
     @Override
@@ -77,11 +77,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
 
-    public float[] getDudePosition(float y, float z, float maxAngle) {
+    public float[] getDudePosition(float y, float z ) {
         float[] coordinates = new float[2];
 
-        coordinates[0] = (dudeView.getWidth() / 2) + ((y / maxAngle) * dudeView.getWidth() / 2) - (dudeView.getDude().getImage().getWidth() / 2);
-        coordinates[1] = (dudeView.getHeight() / 2) + ((z / maxAngle) * dudeView.getHeight() / 2) - (dudeView.getDude().getImage().getHeight() / 2);
+        coordinates[0] = (dudeView.getWidth() / 2) + ((y) * dudeView.getWidth() / 2) - (dudeView.getDude().getImage().getWidth() / 2);
+        coordinates[1] = (dudeView.getHeight() / 2) + ((z) * dudeView.getHeight() / 2) - (dudeView.getDude().getImage().getHeight() / 2);
 
         return coordinates;
     }
@@ -94,26 +94,14 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
             float y = -event.values[1];
-            float z = event.values[2] - 45;
+            float z = event.values[2] - 345;
 
-            float maxAngle = 30;
+            float[] coords = getDudePosition(y, z);
 
-            if (y > maxAngle)
-                y = maxAngle;
-            if (y < -maxAngle)
-                y = -maxAngle;
+            int backgroundBaseSpeed = 15;
 
-            if (z > maxAngle)
-                z = maxAngle;
-            if (z < -maxAngle)
-                z = -maxAngle;
-
-            float[] coords = getDudePosition(y, z, maxAngle);
-
-            int bgBaseSpeed = 12;
-
-            int bgSpeed = (int) (bgBaseSpeed + ((24) * (y / maxAngle)));
-            backgroundView.getBackgroundModel().setSpeed(bgSpeed < 3 ? 3 : bgSpeed);
+            int backgroundSpeed = (int) (backgroundBaseSpeed + ((50) * (y)));
+            backgroundView.getBackgroundModel().setSpeed(backgroundSpeed < 3 ? 3 : backgroundSpeed);
 
             dudeView.getDude().setPosition(coords);
             dudeView.invalidate();
@@ -125,8 +113,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void gameOver() {
         // save the game, then make a new intent to
-        // switch the game to the main activity
-
         int highScore = Constants.HIGHSCORE;
         int score = Constants.SCORE;
 
