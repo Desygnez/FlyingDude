@@ -42,7 +42,7 @@ public class DudeView extends View {
         keepDudeVisible(dude);
         canvas.drawBitmap(dude.getImage(), coords[0], coords[1], null);
 
-        String speedText = ""+(-background.getSpeed()*23);
+        String speedText = "" + (-background.getSpeed() * 23);
         int fontSize = context.getResources().getDimensionPixelSize(R.dimen.speedFontSize);
         Paint paint = getPaint(fontSize);
         paint.getTextBounds(textLabel, 0, speedText.length(), rect);
@@ -55,10 +55,10 @@ public class DudeView extends View {
         int labelPadding = context.getResources().getDimensionPixelSize(R.dimen.labelPadding);
 
         if (speedXCoordinate == 0)
-            speedXCoordinate = (getWidth()-rect.width())-labelPadding;
+            speedXCoordinate = (getWidth() - rect.width()) - labelPadding;
 
         paint.getTextBounds(textLabel, 0, textLabel.length(), rect);
-        canvas.drawText(textLabel, (speedXCoordinate-rect.width()-labelPadding), yOffset, paint);
+        canvas.drawText(textLabel, (speedXCoordinate - rect.width() - labelPadding), yOffset, paint);
         canvas.drawText(speedText, speedXCoordinate, yOffset, paint);
     }
 
@@ -71,7 +71,7 @@ public class DudeView extends View {
             paint.setTypeface(typeface);
             paint.setStyle(Paint.Style.FILL);
             paint.setAntiAlias(true);
-            paint.setColor(context.getResources().getColor(android.R.color.holo_green_dark));
+            paint.setColor(context.getResources().getColor(android.R.color.holo_red_dark));
             paint.setTextSize(fontSize);
         }
         return paint;
@@ -89,15 +89,15 @@ public class DudeView extends View {
 
         if (dudeX < 0)
             coords[0] = 1;
-        else if (dudeX > getWidth()-width)
-            coords[0] = getWidth()-width;
+        else if (dudeX > getWidth() - width)
+            coords[0] = getWidth() - width;
         else
             coords[0] = dudeX;
 
         if (dudeY < 0)
             coords[1] = 1;
-        else if (dudeY > getHeight()-height)
-            coords[1] = getHeight()-height;
+        else if (dudeY > getHeight() - height)
+            coords[1] = getHeight() - height;
         else
             coords[1] = dudeY;
 

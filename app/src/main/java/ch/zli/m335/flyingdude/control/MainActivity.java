@@ -14,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -29,26 +30,19 @@ import ch.zli.m335.flyingdude.view.DudeView;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-    SurfaceHolder holder;
     private BackgroundView backgroundView;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private DudeView dudeView;
-    private boolean showGameOver;
-    private static final int PLAYER_SIZE = 100;
-    private MainThread thread;
-    private RectPlayer player;
-    private Point playerPoint;
-    private ObstacleManager obstacleManager;
-    private MainActivity gameActivity;
-    private boolean RUNNING;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
         backgroundView = new BackgroundView(this);
 
@@ -64,25 +58,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(fl);
     }
 
-    public void onStart(MainActivity gameActivity) {
-        this.gameActivity = gameActivity;
-
-        thread = new MainThread(getHolder(), this);
-        thread.setRunning(true);
-        RUNNING = true;
-        thread.start();
-
-        Constants.CURRENT_Y = 0;
-        Constants.SCORE = 0;
-        Constants.ADDER = 15;
-        showGameOver = false;
-        setFocusable(true);
-
-        player = new RectPlayer(new Rect(0,0,PLAYER_SIZE, PLAYER_SIZE), Color.YELLOW);
-        playerPoint = new Point(Constants.SCREEN_WIDTH/2-PLAYER_SIZE/2,Constants.SCREEN_HEIGHT-7*PLAYER_SIZE);
-
-        obstacleManager = new ObstacleManager();
-    }
 
     @Override
     protected void onResume() {
@@ -113,13 +88,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor s, int acc) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
             float y = -event.values[1];
             float z = event.values[2] - 45;
 
@@ -148,45 +121,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
     }
 
-    public void update() {
-        if(RUNNING) {
-            Constants.CURRENT_Y++;
-            if(!showGameOver)
-                Constants.SCORE = Constants.CURRENT_Y;
-            if (Constants.CURRENT_Y % 100 == 0) {
-                Constants.ADDER++;
-            }
 
-            player.update(playerPoint);
-            obstacleManager.update();
-
-            int collide = obstacleManager.playerCollide(player);
-
-            // were testing the top
-            if ((collide & Constants.TOP_COLLISION) == Constants.TOP_COLLISION) {
-                // add the score to it
-                playerPoint.set(playerPoint.x, playerPoint.y + Constants.ADDER);
-            }
-
-            if (player.getRectangle().bottom > Constants.SCREEN_HEIGHT) {
-                showGameOver = true;
-            }
-
-            if(showGameOver) {
-                if(Constants.CURRENT_Y - Constants.SCORE > 30 * 3)  // 3 seconds
-                    RUNNING = false;
-            }
-        } else {
-            try {
-                thread.setRunning(false);
-                //thread.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            gameActivity.gameOver();
-        }
-    }
 
     public void gameOver() {
         // save the game, then make a new intent to
@@ -214,5 +149,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("highScore", highScore);
         editor.commit();
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

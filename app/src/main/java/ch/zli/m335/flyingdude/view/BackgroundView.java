@@ -3,18 +3,32 @@ package ch.zli.m335.flyingdude.view;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-
+import ch.zli.m335.flyingdude.control.MainThread;
+import ch.zli.m335.flyingdude.Constants;
 import ch.zli.m335.flyingdude.R;
+import ch.zli.m335.flyingdude.control.MainActivity;
 import ch.zli.m335.flyingdude.model.Background;
+import ch.zli.m335.flyingdude.model.ObstacleManager;
+import ch.zli.m335.flyingdude.model.RectPlayer;
 
 public class BackgroundView extends SurfaceView implements Runnable {
+
+    private static final int PLAYER_SIZE = 100;
+    private RectPlayer player;
+    private Point playerPoint;
+    private ObstacleManager obstacleManager;
+    private MainActivity gameActivity;
+    private boolean RUNNING;
     Background background;
     Thread renderThread;
     SurfaceHolder holder;
     volatile boolean running;
+    private boolean showGameOver;
 
     public BackgroundView(Context context) {
         super(context);
@@ -39,6 +53,7 @@ public class BackgroundView extends SurfaceView implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         long startTime = System.nanoTime();
         while (running) {
@@ -64,6 +79,59 @@ public class BackgroundView extends SurfaceView implements Runnable {
                     holder.unlockCanvasAndPost(canvas);
             }
         }
+
+        renderThread = new MainThread(getHolder(), this);
+        RUNNING = true;
+        renderThread.start();
+
+        Constants.CURRENT_Y = 0;
+        Constants.SCORE = 0;
+        Constants.ADDER = 15;
+        showGameOver = false;
+        setFocusable(true);
+
+        player = new RectPlayer(new Rect(0,0,PLAYER_SIZE, PLAYER_SIZE), Color.YELLOW);
+        playerPoint = new Point(Constants.SCREEN_WIDTH/2-PLAYER_SIZE/2,Constants.SCREEN_HEIGHT-7*PLAYER_SIZE);
+
+        obstacleManager = new ObstacleManager();
+    }
+
+    public void update() {
+        if(RUNNING) {
+            Constants.CURRENT_Y++;
+            if(!showGameOver)
+                Constants.SCORE = Constants.CURRENT_Y;
+            if (Constants.CURRENT_Y % 100 == 0) {
+                Constants.ADDER++;
+            }
+
+            player.update(playerPoint);
+            obstacleManager.update();
+
+            int collide = obstacleManager.playerCollide(player);
+
+            // were testing the top
+            if ((collide & Constants.TOP_COLLISION) == Constants.TOP_COLLISION) {
+                // add the score to it
+                playerPoint.set(playerPoint.x, playerPoint.y + Constants.ADDER);
+            }
+
+            if (player.getRectangle().bottom > Constants.SCREEN_HEIGHT) {
+                showGameOver = true;
+            }
+
+            if(showGameOver) {
+                if(Constants.CURRENT_Y - Constants.SCORE > 30 * 3)  // 3 seconds
+                    RUNNING = false;
+            }
+        } else {
+            try {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            gameActivity.gameOver();
+        }
     }
 
     public Background getBackgroundModel(){
@@ -73,4 +141,5 @@ public class BackgroundView extends SurfaceView implements Runnable {
     private float getDeltaTime(long startTime) {
         return (System.nanoTime() - startTime) / 100000000f;
     }
+
 }
