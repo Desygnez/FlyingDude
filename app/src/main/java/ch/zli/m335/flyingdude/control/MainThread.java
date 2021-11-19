@@ -37,7 +37,6 @@ public class MainThread extends Thread {
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
-                    this.gamePanel.update();
                     this.gamePanel.draw(canvas);
                 }
             } catch (Exception e) {
@@ -71,5 +70,10 @@ public class MainThread extends Thread {
                 totalTime = 0;
             }
         }
+    }
+
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }

@@ -21,8 +21,6 @@ public class BackgroundView extends SurfaceView implements Runnable {
     private static final int PLAYER_SIZE = 100;
     private RectPlayer player;
     private Point playerPoint;
-    private ObstacleManager obstacleManager;
-    private MainActivity gameActivity;
     private boolean RUNNING;
     Background background;
     Thread renderThread;
@@ -93,7 +91,6 @@ public class BackgroundView extends SurfaceView implements Runnable {
         player = new RectPlayer(new Rect(0,0,PLAYER_SIZE, PLAYER_SIZE), Color.YELLOW);
         playerPoint = new Point(Constants.SCREEN_WIDTH/2-PLAYER_SIZE/2,Constants.SCREEN_HEIGHT-7*PLAYER_SIZE);
 
-        obstacleManager = new ObstacleManager();
     }
 
     public void update() {
@@ -106,15 +103,7 @@ public class BackgroundView extends SurfaceView implements Runnable {
             }
 
             player.update(playerPoint);
-            obstacleManager.update();
 
-            int collide = obstacleManager.playerCollide(player);
-
-            // were testing the top
-            if ((collide & Constants.TOP_COLLISION) == Constants.TOP_COLLISION) {
-                // add the score to it
-                playerPoint.set(playerPoint.x, playerPoint.y + Constants.ADDER);
-            }
 
             if (player.getRectangle().bottom > Constants.SCREEN_HEIGHT) {
                 showGameOver = true;
@@ -130,7 +119,6 @@ public class BackgroundView extends SurfaceView implements Runnable {
                 e.printStackTrace();
             }
 
-            gameActivity.gameOver();
         }
     }
 

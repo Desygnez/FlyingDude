@@ -11,11 +11,20 @@ import ch.zli.m335.flyingdude.model.RectPlayer;
 public class ObstacleView implements GameObject {
 
     private Rect rectangle;
+    private Rect rectangle2;
     private int color;
 
-    public ObstacleView(Rect rectangle, int color) {
-        this.rectangle = rectangle;
+    public ObstacleView(int rectHeight, int color, int startX, int startY, int playerGap) {
         this.color = color;
+        rectangle = new Rect(0, startY, startX, startY + rectHeight);
+        rectangle2 = new Rect(startX + playerGap, startY, Constants.SCREEN_WIDTH, startY + rectHeight);
+    }
+
+    public void incrementY(float y){
+        rectangle.top += y;
+        rectangle.bottom += y;
+        rectangle2.top += y;
+        rectangle2.bottom += y;
     }
 
     @Override
@@ -23,6 +32,7 @@ public class ObstacleView implements GameObject {
         Paint paint = new Paint();
         paint.setColor(color);
         canvas.drawRect(rectangle, paint);
+        canvas.drawRect(rectangle2, paint);
     }
 
     @Override
@@ -38,26 +48,13 @@ public class ObstacleView implements GameObject {
     }
 
 
-    public int playerCollide(RectPlayer player) {
-        int collision = 0;
-
-        if(rectangle.contains(player.getRectangle().left, player.getRectangle().top)
-                || rectangle.contains(player.getRectangle().left, player.getRectangle().bottom))
-            collision |= Constants.LEFT_COLLISION;
-
-        if(rectangle.contains(player.getRectangle().left, player.getRectangle().top)
-                || rectangle.contains(player.getRectangle().right, player.getRectangle().top))
-            collision |= Constants.TOP_COLLISION;
-
-        if(rectangle.contains(player.getRectangle().right, player.getRectangle().top)
-                || rectangle.contains(player.getRectangle().right, player.getRectangle().bottom))
-            collision |= Constants.RIGHT_COLLISION;
-
-        if(rectangle.contains(player.getRectangle().left, player.getRectangle().bottom)
-                || rectangle.contains(player.getRectangle().right, player.getRectangle().bottom))
-            collision |= Constants.BOTTOM_COLLISION;
-
-        return collision;
+    public boolean playerCollide(RectPlayer player) {
+        if(rectangle.contains(player.getRectangle().left,player.getRectangle().top)
+            || rectangle.contains(player.getRectangle().right, player.getRectangle().top)
+            || rectangle.contains(player.getRectangle().left, player.getRectangle().bottom)
+            || rectangle.contains(player.getRectangle().right, player.getRectangle().bottom))
+                return true;
+        return false;
     }
 
 }
