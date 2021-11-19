@@ -1,0 +1,434 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh !important;
+}
+
+.nobar::-webkit-scrollbar {
+    display: none;
+}
+
+
+* {
+    font-family: Quadrit, sans-serif;
+}
+
+/* Hide scrollbar for IE and Edge */
+.nobar {
+    -ms-overflow-style: none;
+    background-image: url("images/rose.jpg");
+    height: 100%;
+    width: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+    background-image: none;
+    text-align: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+    font-size: 25px;
+    margin-right: 21px;
+    margin-left: 13px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    background-position: 100%;
+    transition: background-position 375ms ease;
+}
+
+.team-link {
+    background: linear-gradient(to right, dodgerblue, lightcyan 50%, white 50%);
+}
+
+.history-link {
+    background: linear-gradient(to right, gold, sandybrown 50%, white 50%);
+}
+
+.index-link {
+    background: linear-gradient(to right, magenta, mediumpurple 50%, white 50%);
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    transform: scale(1.4);
+    background-position: 0 100%;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url(images/background.jpg);
+
+    /* Full height */
+    height: 100%;
+    width: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 966px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}
+
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 966px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}
+
+.profile-card-5 {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+}
+
+.card-body {
+    padding-bottom: 0.5em;
+}
+
+.profile-card-5 .btn {
+    border-radius: 13px;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    padding: 8px 10px 5px 11px;
+}
+
+.profile-card-5 .card-img-block {
+    width: 91%;
+    margin: 0 auto;
+    position: relative;
+    top: -20px;
+}
+
+.profile-card-5 .card-img-block img {
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.63);
+}
+
+.profile-card-5 h5 {
+    color: #212529;
+    font-weight: 600;
+    text-align: center;
+}
+
+.profile-card-5 p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.team {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.history {
+    color: #777;
+    background-color: white;
+    text-align: center;
+    padding: 50px 80px;
+    margin: 5em;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.card-group {
+    background-color: transparent;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.caption span.border {
+    color: #fff;
+    padding: 12px 9px 6px 20px;
+    font-size: 45px;
+    letter-spacing: 10px;
+    border-radius: 23px;
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+}
+
+#scroll a {
+    padding-top: 30px;
+}
+
+#scroll a span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-animation: sdb07 2s infinite;
+    animation: sdb07 2s infinite;
+    opacity: 0;
+    box-sizing: border-box;
+}
+
+#scroll a span:nth-of-type(1) {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+#scroll a span:nth-of-type(2) {
+    top: 16px;
+    -webkit-animation-delay: .15s;
+    animation-delay: .15s;
+}
+
+#scroll a span:nth-of-type(3) {
+    top: 32px;
+    -webkit-animation-delay: .3s;
+    animation-delay: .3s;
+}
+
+@-webkit-keyframes sdb07 {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes sdb07 {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.demo a {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    z-index: 2;
+    display: inline-block;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    color: #fff;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: opacity .3s;
+
+}
+
+.demo a:hover {
+    opacity: .5;
+}
+
+/*  Container fÃ¼r Scrollpunkt. */
+
+.inhalt {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.center {
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+}
+
+.card-team {
+    width: 600px;
+    height: 350px;
+    background-color: #fff;
+    background: linear-gradient(#f8f8f8, #fff);
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin: 1.5rem;
+}
+
+.card h2 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+
+.card .additional {
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(#212529, #212529);
+    transition: width 0.6s;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+.card:hover .additional {
+    width: 100%;
+    border-radius: 0 5px 5px 0;
+}
+
+.card .additional .user-card {
+    width: 250px;
+    height: 100%;
+    position: relative;
+    float: left;
+}
+
+.card .additional .user-card::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 10%;
+    right: -2px;
+    height: 80%;
+    border-left: 2px solid rgba(0, 0, 0, 0.025);
+}
+
+.card .additional .user-card .years,
+.card .additional .user-card .place {
+    top: 12%;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.75em;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.125rem 0.75rem;
+    border-radius: 100px;
+    white-space: nowrap;
+}
+
+.card .additional .user-card .place {
+    top: 91%;
+}
+
+.card .additional .more-info {
+    width: 300px;
+    float: left;
+    position: absolute;
+    left: 250px;
+    height: 100%;
+}
+
+.card .additional .more-info h2 {
+    color: white;
+    margin-bottom: 26px;
+    margin-top: 23px;
+    margin-left: 40px;
+}
+
+.card .additional .coords {
+    margin: 0.12rem -3rem 0rem 2rem;
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 0.45px;
+    text-align: left;
+}
+
+.card .additional .coords span + span {
+    text-align: center;
+    margin-left: 4px;
+}
+
+.card .additional .stats {
+    font-size: 2rem;
+    display: flex;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 0;
+    top: auto;
+    color: #fff;
+    margin-bottom: -10px;
+    margin-left: 20px;
+}
+
+.card .additional .stats > div {
+    flex: 1;
+    text-align: center;
+}
+
+.card .additional .stats i {
+    display: block;
+    margin: 6px;
+}
+
+.card .additional .stats div.title {
+    font-size: 0.7rem;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card .additional .stats div.value {
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 2.5rem;
+}
+
+.card .additional .stats div.value.infinity {
+    font-size: 2rem;
+}
+
+.card .general {
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    top: 12px;
+    right: 30px;
+    text-align: center;
+    z-index: 1;
+    box-sizing: border-box;
+    padding: 1rem;
+    padding-top: 0;
+}
+
+.card .general .more {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    font-size: 0.67em;
+}
